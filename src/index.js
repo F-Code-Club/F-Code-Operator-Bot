@@ -34,18 +34,27 @@ client.on('messageCreate', async (message) => {
     if(regex.test(studentCode)) {
       console.log(studentCode);
       // Kiểm tra mã số sinh viên trong database
-      const query = `SELECT * FROM students WHERE student_id = '${studentCode}'`;
+      const query = `SELECT * FROM students WHERE UPPER(student_id) = '${studentCode}' AND is_join = 0;`;
       connection.query(query, (error, results, fields) => {
+
         if (error) throw error;
 
         if (results.length > 0) {
+          // Đánh dấu mã số sinh viên này đã tham gia discord
+          const updateQuery = `
+            UPDATE students
+            SET is_join = 1
+            WHERE UPPER(student_id) = '${studentCode}' AND is_join = 0;  
+          `;
+          connection.query(updateQuery,(error, results, fields)=>{if (error) throw error;});
+
           // Nếu có kết quả, đặt quyền cho thành viên
           const member = message.guild.members.cache.get(message.author.id);
           const role = message.guild.roles.cache.find(role => role.name === 'Challenger 1');
 
           if (role && member) {
             member.roles.add(role);
-            message.reply('Đã thêm quyền cho bạn.');
+            message.reply('Đã thêm roll cho bạn.');
           }
         } else {
           message.reply('Mã số sinh viên không hợp lệ.');
@@ -53,7 +62,7 @@ client.on('messageCreate', async (message) => {
       });
     } else {
       message.reply('Mã số sinh viên không hợp lệ.');
-      console.log("ERROR: Không phải là MSSV");
+      // console.log("ERROR: Không phải là MSSV");
     }
   }
 });
