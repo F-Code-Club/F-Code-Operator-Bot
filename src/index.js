@@ -32,7 +32,7 @@ client.on('messageCreate', async (message) => {
     
     const regex = /^[A-Za-z]{2}\d{6}$/;
     if(regex.test(studentCode)) {
-      console.log(studentCode);
+      // console.log(studentCode);
       // Kiểm tra mã số sinh viên trong database
       const query = `SELECT * FROM students WHERE UPPER(student_id) = '${studentCode}' AND is_join = 0;`;
       connection.query(query, (error, results, fields) => {
@@ -57,12 +57,12 @@ client.on('messageCreate', async (message) => {
             message.reply('Đã thêm roll cho bạn.');
           }
         } else {
-          message.reply('Mã số sinh viên không hợp lệ.');
+          message.reply('Mã số sinh viên này đã được xác nhận hoặc không có.');
         }
       });
     } else {
       message.reply('Mã số sinh viên không hợp lệ.');
-      // console.log("ERROR: Không phải là MSSV");
+      console.log("ERROR: Không phải là MSSV");
     }
   }
 });
