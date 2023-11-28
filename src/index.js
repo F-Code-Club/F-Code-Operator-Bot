@@ -62,7 +62,7 @@ client.on('messageCreate', async (message) => {
       });
     } else {
       message.reply('Mã số sinh viên không hợp lệ.');
-      console.log("ERROR: Không phải là MSSV");
+      // console.log("ERROR: Không phải là MSSV");
     }
   }
 });
