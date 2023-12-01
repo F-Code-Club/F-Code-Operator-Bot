@@ -33,7 +33,6 @@ client.on('messageCreate', async (message) => {
         // Find the student in the Excel file
         let foundStudent = 0;
         worksheet.eachRow(function(row, rowNumber) {
-          console.log(rowNumber);
           if(row.getCell('E').value.toUpperCase() === studentCode.toUpperCase() && row.getCell('I').value === 0)
             foundStudent = rowNumber;
         });
@@ -59,7 +58,7 @@ client.on('messageCreate', async (message) => {
         }
       } catch (error) {
         console.error('Error accessing Excel file:', error);
-        message.reply('Đã xảy ra lỗi khi truy cập tệp Excel.');
+        message.reply('Có một số lỗi đã xảy ra bạn thử lại trong ít phút nhé!');
       }
     } else {
       message.reply('Mã số sinh viên không hợp lệ.');
